@@ -56,6 +56,9 @@ class Watcher {
   }
 
   stop() {
+    for (let name of this.packages) {
+      this.watcher.unwatch(`${global.config.packageRoot}/${name}/${this.packageFolder}`);
+    }
   }
 }
 
