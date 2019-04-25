@@ -17,12 +17,14 @@ exports.arglist = (f) => {
 }
 
 function walkSync(dir, files = []) {
-  for (let file of fs.readdirSync(dir)) {
-    file = path.join(dir, file);
-    if (fs.statSync(file).isDirectory()) {
-      files = walkSync(file, files);
-    } else {
-      files.push(file);
+  if (fs.existsSync(dir)) {
+    for (let file of fs.readdirSync(dir)) {
+      file = path.join(dir, file);
+      if (fs.statSync(file).isDirectory()) {
+        files = walkSync(file, files);
+      } else {
+        files.push(file);
+      }
     }
   }
   return files;
