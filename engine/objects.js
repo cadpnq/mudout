@@ -37,8 +37,7 @@ class ObjectManager extends watcher {
     let packagePath = `${global.config.packageRoot}/${name}`;
 
     for (let file of misc.walkSync(`${packagePath}/mixins/`)) {
-      let name = parse(file).name;
-      this.defineMixin(name, require(`./../${file}`));
+      this.defineMixin(require(`./../${file}`))
     }
 
     for (let file of misc.walkSync(`${packagePath}/types/`)) {
@@ -111,9 +110,9 @@ class ObjectManager extends watcher {
     }
   }
 
-  defineMixin(name, mixin) {
-    global.logger.info(`Defining mixin: ${name}`);
-    this.mixins.set(name, mixin);
+  defineMixin(mixin) {
+    global.logger.info(`Defining mixin: ${mixin.name}`);
+    this.mixins.set(mixin.name, mixin);
   }
 
   defineType(name, ...mixins) {
@@ -154,7 +153,7 @@ class ObjectManager extends watcher {
         return objectClass;
       });
 
-      if (definition.includes('internal')) {
+      if (definition.includes('Internal')) {
         this.load(name, {name: name, id: name, type: name});
       }
     }
