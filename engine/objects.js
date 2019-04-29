@@ -37,7 +37,7 @@ class ObjectManager extends watcher {
     let packagePath = `${global.config.packageRoot}/${name}`;
 
     for (let file of misc.walkSync(`${packagePath}/mixins/`)) {
-      this.defineMixin(require(`./../${file}`))
+      this.addMixin(require(`./../${file}`))
     }
 
     for (let file of misc.walkSync(`${packagePath}/types/`)) {
@@ -110,7 +110,7 @@ class ObjectManager extends watcher {
     }
   }
 
-  defineMixin(mixin) {
+  addMixin(mixin) {
     global.logger.info(`Defining mixin: ${mixin.name}`);
     this.mixins.set(mixin.name, mixin);
   }

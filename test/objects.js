@@ -15,9 +15,9 @@ describe('ObjectManager', function() {
     engine.start(config, false);
   });
 
-  describe('defineMixin()', function() {
-    it('should define a mixin', function() {
-      global.objects.defineMixin(TestMixin);
+  describe('addMixin()', function() {
+    it('should add a mixin', function() {
+      global.objects.addMixin(TestMixin);
       assert(global.objects.mixins.has('TestMixin'));
     });
   });
