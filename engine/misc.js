@@ -32,6 +32,6 @@ function walkSync(dir, files = []) {
 exports.walkSync = walkSync;
 
 exports.requireReload = (modulePath) => {
-    delete require.cache[require.resolve(modulePath)];
-    return require(modulePath);
+  delete require.cache[require.resolve(modulePath)];
+  return require(modulePath);
 }
