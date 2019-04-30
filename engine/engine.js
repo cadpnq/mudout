@@ -1,5 +1,6 @@
 
 const PackageManager = require('./packages');
+const SystemManager = require('./systems');
 const ObjectManager = require('./objects');
 
 exports.start = (config, start = true) => {
@@ -14,6 +15,14 @@ exports.start = (config, start = true) => {
   let packages = new PackageManager();
   global.packages = packages;
 
+  logger.info('Initializing system manager');
+  let systems = new SystemManager();
+  global.systems = systems;
+
+  if (start) {
+    systems.start();
+  }
+
   logger.info('Initializing object manager');
   let objects = new ObjectManager();
   global.objects = objects;
@@ -24,5 +33,6 @@ exports.start = (config, start = true) => {
 }
 
 exports.stop = () => {
-  global.objects.stop();
+  if (global.systems) global.systems.stop();
+  if (global.objects) global.objects.stop();
 }
