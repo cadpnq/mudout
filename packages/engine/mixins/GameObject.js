@@ -29,7 +29,7 @@ let GameObject = (extend) => {
             }
           });
         }
-        if (value) {
+        if (value != undefined) {
           this[name] = value;
         }
       }
