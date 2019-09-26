@@ -138,7 +138,7 @@ let GameObject = (extend) => {
 
     runSystem(name, t) {
       if (global.systems.has(name)) {
-        global.systems.get(name).each(this, t);
+        global.systems[name].each(this, t);
       }
     }
 
