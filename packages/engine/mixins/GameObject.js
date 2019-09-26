@@ -136,6 +136,12 @@ let GameObject = (extend) => {
       }
     }
 
+    runSystem(name, t) {
+      if (global.systems.has(name)) {
+        global.systems.get(name).each(this, t);
+      }
+    }
+
     static defineStaticVariable(name, {value, save = false} = {}) {
       this.prototype[name] = value;
       this.staticVariables.set(name, {name, save});
