@@ -100,10 +100,12 @@ let GameObject = (extend) => {
       }
 
       for (let [name, {reference}] of this.instanceVariables) {
-        if (reference && this[name]) {
-          data.references[name] = this[name].uid;
-        } else {
-          data.instanceData[name] = this[name];
+        if (this[name] != undefined) {
+          if (reference) {
+            data.references[name] = this[name].uid;
+          } else {
+            data.instanceData[name] = this[name];
+          }
         }
       }
 
