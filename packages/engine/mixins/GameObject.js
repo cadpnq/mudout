@@ -123,13 +123,17 @@ let GameObject = (extend) => {
     }
 
     register(name) {
-      this.systems.add(name);
-      global.systems.register(name, this);
+      if (!this.systems.has(name)) {
+        this.systems.add(name);
+        global.systems.register(name, this);
+      }
     }
 
     unregister(name) {
-      this.systems.delete(name);
-      global.systems.unregister(name, this);
+      if (this.systems.has(name)) {
+        this.systems.delete(name);
+        global.systems.unregister(name, this);
+      }
     }
 
     static defineStaticVariable(name, {value, save = false} = {}) {
