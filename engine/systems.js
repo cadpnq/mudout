@@ -143,6 +143,10 @@ class SystemManager extends watcher {
       this.systems.get(name).unregister(obj);
     }
   }
+
+  has(name) {
+    return this.systems.has(name);
+  }
 }
 
 module.exports = SystemManager;
