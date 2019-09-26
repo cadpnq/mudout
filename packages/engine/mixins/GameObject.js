@@ -7,6 +7,8 @@ let GameObject = (extend) => {
       this.systems = new Set();
       this.instanceData = {};
 
+      this.instances.add(this);
+
       for (let [name, {value, expose, reference}] of this.instanceVariables) {
         Object.defineProperty(this, `_${name}`, {
           get: () => {
