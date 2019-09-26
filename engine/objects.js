@@ -46,10 +46,6 @@ class ObjectManager extends watcher {
     }
   }
 
-  loadInstance(data) {
-    return this.objects.get(data.id).load(data);
-  }
-
   defer(path, data) {
     this.deferredInstances.add({path, data});
   }
@@ -163,6 +159,14 @@ class ObjectManager extends watcher {
     let object = this.objects.get(id);
     let instance = new object;
     object.new(instance, ...args);
+    this.instances.set(instance.uid, instance);
+    return instance;
+  }
+
+  loadInstance(data) {
+    let object = this.objects.get(data.id);
+    let instance = new object;
+    object.load(instance, data);
     this.instances.set(instance.uid, instance);
     return instance;
   }
