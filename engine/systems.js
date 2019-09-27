@@ -23,9 +23,9 @@ class System {
   }
 
   update(t) {
-   this.elapsed = 0;
+    this.elapsed = 0;
 
-   let totalStart = misc.time();
+    let totalStart = misc.time();
     this.before(this, t);
     for (let obj of this.objects) {
       this.each(obj, t);
