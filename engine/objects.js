@@ -72,7 +72,7 @@ class ObjectManager extends watcher {
     } else {
       let obj = this.objects.get(data.id);
       if (!obj) {
-        global.logger.info(`Defining a new object: ${data.type}`);
+        global.logger.info(`Defining a new object: ${data.id}`);
         obj = this.types.get(data.type)(data);
         this.objects.set(data.id, obj);
       } else {
