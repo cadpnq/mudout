@@ -28,7 +28,7 @@ class Watcher {
 
   addChange(path) {
     if (global.config.activeHotload) {
-      this.load(path);
+      this.doLoad(path);
     } else {
       this.changes.add(path);
     }
@@ -36,8 +36,16 @@ class Watcher {
 
   loadChanges() {
     for (let path of this.changes) {
-      this.load(path);
+      this.doLoad(path);
       this.changes.delete(path);
+    }
+  }
+
+  doLoad(path) {
+    try {
+      this.load(path);
+    } catch (error) {
+      global.logger.error(`There was an error loading: ${path}\n${error.stack}`);
     }
   }
 
@@ -49,7 +57,7 @@ class Watcher {
     for (let name of this.packages) {
       let path = `${global.config.packageRoot}/${name}/${this.packageFolder}`;
       for (let file of misc.walkSync(path)) {
-        this.load(file);
+        this.doLoad(file);
       }
       this.watcher.add(path);
     }
