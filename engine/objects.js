@@ -158,7 +158,7 @@ class ObjectManager extends watcher {
   new(id, ...args) {
     let object = this.objects.get(id);
     let instance = new object;
-    object.new(instance, ...args);
+    instance = object.new(instance, ...args);
     this.instances.set(instance.uid, instance);
     return instance;
   }
