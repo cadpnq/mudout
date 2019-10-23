@@ -17,6 +17,6 @@
     "mocha": "^6.0.2"
   },
   "scripts": {
-    "test": "mocha test -r chai/register-assert"
-  }
+    "test": "node testRunner.js"
+  },
 }
