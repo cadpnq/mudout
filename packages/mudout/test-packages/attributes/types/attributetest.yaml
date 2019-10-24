@@ -1,0 +1,5 @@
+name: attributetest
+mixins:
+  - GameObject
+  - Attributes
+  - AttributeTest

@@ -1,0 +1,5 @@
+type: attributetest
+id: attributetest
+name: attributetest
+attributes:
+  test: 0
