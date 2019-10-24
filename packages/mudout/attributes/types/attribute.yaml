@@ -1,0 +1,5 @@
+name: attribute
+mixins:
+  - GameObject
+  - Internal
+  - Attribute
