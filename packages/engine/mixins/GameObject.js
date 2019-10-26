@@ -3,7 +3,7 @@ const uniqid = require('uniqid');
 let GameObject = (extend) => {
   return class GameObject {
     constructor() {
-      this.dirty = true;
+      this._dirty = true;
       this.systems = new Set();
       this.instanceData = {};
 
@@ -35,6 +35,14 @@ let GameObject = (extend) => {
           this[name] = value;
         }
       }
+    }
+
+    set dirty(value) {
+      this._dirty = value;
+    }
+
+    get dirty() {
+      return this._dirty;
     }
 
     static initialize(data) {

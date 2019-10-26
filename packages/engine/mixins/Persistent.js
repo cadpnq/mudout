@@ -2,7 +2,19 @@ let Persistent = (extend) => {
   class Persistent extends extend {
     constructor() {
       super();
-      this.register('persist');
+    }
+
+    set dirty(value) {
+      super.dirty = value;
+      if (value) {
+        this.register('persist');
+      } else {
+        this.unregister('persist');
+      }
+    }
+
+    get dirty() {
+      return super.dirty;
     }
   }
   return Persistent;
