@@ -1,0 +1,15 @@
+title: 'MUDout'
+description: "A Post-Nuclear Multi-User Dungeon."
+baseurl: "/mudout"
+url: "https://cadpnq.github.io"
+
+header_pages:
+  - index.md
+
+style: dark
+
+footer: 'join us on <a href="https://discord.gg/KjqJM86">Discord</a>'
+
+# Build settings
+markdown: kramdown
+remote_theme: b2a3e8/jekyll-theme-console
