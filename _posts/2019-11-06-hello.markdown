@@ -1,0 +1,13 @@
+---
+layout: post
+title:  "Hello"
+date:   2019-11-16 11:52:00 -0500
+categories:
+---
+
+# Hello
+I don't know exactly how to start this post, but we'll go with the obvious: I'm building a MUD. More precisely: I am building a game engine using node.js and a MUD on top of it. There are those who say that doing a game engine in parallel with a game is a bad idea (apparently it is better to just write a game and then spin it off into a standalone engine), but we'll see how it goes.
+
+The game itself will be a tribute to the fallout series. I know that I don't want to build the same MUD as everyone else - I want to do something *different*. So far this means a from-scratch engine, a roomless world, and an optional TUI interface. I'll go over each of those in the future.
+
+In the next post I'll go over the specifics of the engine.
