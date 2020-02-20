@@ -148,5 +148,5 @@ let Attributes = (extend) => {
   return Attributes;
 };
 
+Attributes.priority = 100;
 module.exports = Attributes;
-module.exports.priority = 100;

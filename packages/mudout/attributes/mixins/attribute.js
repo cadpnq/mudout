@@ -110,5 +110,5 @@ let Attribute = (extend) => {
   return Attribute;
 };
 
+Attribute.priority = 100;
 module.exports = Attribute;
-module.exports.priority = 100;
