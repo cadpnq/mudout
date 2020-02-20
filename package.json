@@ -6,7 +6,7 @@
   "license": "MIT",
   "private": true,
   "dependencies": {
-    "chokidar": "^1.7.0",
+    "chokidar": "^3.3.1",
     "js-yaml": "^3.9.1",
     "node-ipc": "^9.1.1",
     "uniqid": "^5.0.3",
