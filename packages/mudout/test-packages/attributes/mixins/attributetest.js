@@ -12,4 +12,5 @@ let AttributeTest = (extend) => {
   }
 };
 
+AttributeTest.priority = 300;
 module.exports = AttributeTest;
