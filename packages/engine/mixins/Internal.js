@@ -4,5 +4,5 @@ let Internal = (extend) => {
   return Internal;
 };
 
+Internal.priority = 50;
 module.exports = Internal;
-module.exports.priority = 50;

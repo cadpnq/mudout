@@ -20,5 +20,5 @@ let Persistent = (extend) => {
   return Persistent;
 };
 
+Persistent.priority = 50;
 module.exports = Persistent;
-module.exports.priority = 50;

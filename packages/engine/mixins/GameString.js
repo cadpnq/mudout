@@ -17,5 +17,5 @@ let GameString = (extend) => {
   }
 };
 
+GameString.priority = 100;
 module.exports = GameString;
-module.exports.priority = 100;

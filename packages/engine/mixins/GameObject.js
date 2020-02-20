@@ -161,5 +161,5 @@ let GameObject = (extend) => {
   }
 };
 
+GameObject.priority = 0;
 module.exports = GameObject;
-module.exports.priority = 0;
