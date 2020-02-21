@@ -27,26 +27,35 @@ describe('Packages', function() {
         global.packages.addPackage('bar');
         assert(global.packages.packages.has('bar'));
       });
+    });
+
+    describe('Watcher', function() {
+      let watcher;
+
+      beforeEach(function() {
+        watcher = new Watcher();
+      });
+
+      afterEach(function() {
+        watcher.stop();
+      });
 
       it('should add package to all watchers', function() {
-        let watcher = new Watcher();
         global.packages.addWatcher(watcher);
         global.packages.addPackage('bar');
         assert(watcher.packages.has('bar'));
       });
-    });
 
-    describe('addWatcher()', function() {
-      it('should add a watcher', function() {
-        let watcher = new Watcher();
-        global.packages.addWatcher(watcher);
-        assert(global.packages.watchers.has(watcher));
-      });
+      describe('addWatcher()', function() {
+        it('should add a watcher', function() {
+          global.packages.addWatcher(watcher);
+          assert(global.packages.watchers.has(watcher));
+        });
 
-      it('should add all packages to watcher', function() {
-        let watcher = new Watcher();
-        global.packages.addWatcher(watcher);
-        assert(watcher.packages.has('foo'));
+        it('should add all packages to watcher', function() {
+          global.packages.addWatcher(watcher);
+          assert(watcher.packages.has('foo'));
+        });
       });
     });
   });

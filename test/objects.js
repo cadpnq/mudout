@@ -15,6 +15,10 @@ describe('ObjectManager', function() {
     engine.start(config, false);
   });
 
+  afterEach(function() {
+    engine.stop();
+  });
+
   describe('addMixin()', function() {
     it('should add a mixin', function() {
       global.objects.addMixin(TestMixin);
