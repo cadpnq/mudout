@@ -2,6 +2,7 @@
 const PackageManager = require('./packages');
 const SystemManager = require('./systems');
 const ObjectManager = require('./objects');
+const CommandManager = require('./commands');
 
 exports.start = (config, start = true) => {
   global.config = config;
@@ -30,9 +31,18 @@ exports.start = (config, start = true) => {
   if (start) {
     objects.start();
   }
+
+  logger.info('Initializing command manager');
+  let commands = new CommandManager();
+  global.commands = commands;
+
+  if (start) {
+    commands.start();
+  }
 }
 
 exports.stop = () => {
   if (global.systems) global.systems.stop();
   if (global.objects) global.objects.stop();
+  if (global.commands) global.commands.stop();
 }
