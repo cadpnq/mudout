@@ -7,7 +7,7 @@ class Watcher {
     this.changes = new Set();
     this.packageFolder = packageFolder;
 
-    this.watcher = chokidar.watch('', {
+    this.watcher = chokidar.watch([], {
       persistent: true,
       ignoreInitial: true
     });
