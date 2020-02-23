@@ -1,7 +1,6 @@
 let Internal = (extend) => {
-  class Internal extends extend {
+  return class Internal extends extend {
   }
-  return Internal;
 };
 
 Internal.priority = 50;

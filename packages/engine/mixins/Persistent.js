@@ -1,5 +1,5 @@
 let Persistent = (extend) => {
-  class Persistent extends extend {
+  return class Persistent extends extend {
     constructor() {
       super();
     }
@@ -17,7 +17,6 @@ let Persistent = (extend) => {
       return super.dirty;
     }
   }
-  return Persistent;
 };
 
 Persistent.priority = 50;
