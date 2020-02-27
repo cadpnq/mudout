@@ -1,0 +1,5 @@
+type: instance
+of: string
+name: test-string
+instanceData:
+  value: foobar
