@@ -31,16 +31,14 @@ class ObjectManager extends watcher {
     this.checkDeferred();
   }
 
-  addPackage(name) {
-    super.addPackage(name);
+  addPackage(path) {
+    super.addPackage(path);
 
-    let packagePath = `${global.config.packageRoot}/${name}`;
-
-    for (let file of misc.walkSync(`${packagePath}/mixins/`)) {
+    for (let file of misc.walkSync(`${path}/mixins/`)) {
       this.addMixin(require(`./../${file}`))
     }
 
-    for (let file of misc.walkSync(`${packagePath}/types/`)) {
+    for (let file of misc.walkSync(`${path}/types/`)) {
       let {name, mixins} = yaml.safeLoad(fs.readFileSync(file));
       this.defineType(name, ...mixins);
     }

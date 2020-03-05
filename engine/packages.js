@@ -1,7 +1,7 @@
 
 class PackageManager {
   constructor() {
-    this.packages = new Set();
+    this.packages = new Map();
     this.watchers = new Set();
 
     for (let pack of global.config.packages) {
@@ -9,18 +9,32 @@ class PackageManager {
     }
   }
 
+  resolvePackage(name) {
+    let [root, path] = name.split(':');
+    let rootPath = global.config.packageRoots[root]
+    if (!rootPath) {
+      global.logger.error(`The package root: ${root} is unknown`);
+      return '';
+    }
+    return `${rootPath}/${path}`;
+  }
+
   addPackage(name) {
     global.logger.info(`Adding package: ${name}`);
-    this.packages.add(name);
+    let path = this.resolvePackage(name);
+    if (!path) {
+      return;
+    }
+    this.packages.set(name, path);
     for (let watcher of this.watchers) {
-      watcher.addPackage(name);
+      watcher.addPackage(path);
     }
   }
 
   addWatcher(watcher) {
     this.watchers.add(watcher);
-    for (let name of this.packages) {
-      watcher.addPackage(name);
+    for (let [name, path] of this.packages) {
+      watcher.addPackage(path);
     }
     watcher.initializePackages();
   }

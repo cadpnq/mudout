@@ -1,6 +1,7 @@
+packageRoots:
+  core: packages
 packages:
- - engine
-packageRoot: packages
+ - core:engine
 instancePath: instances
 systemRate: 500
 minimumWait: 20

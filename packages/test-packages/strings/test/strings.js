@@ -1,20 +1,21 @@
-const engine = require('./../../../../engine/engine');
-
 describe('Strings', function() {
   beforeEach(function() {
     let config = {
+      packageRoots: {
+        core: 'packages'
+      },
       packages: [
-        'engine',
-        'test-packages/strings'
+        'core:engine',
+        'core:test-packages/strings'
       ],
       packageRoot: 'packages',
       enableLogging: false
     };
-    engine.start(config);
+    global.engine.start(config);
   });
 
   afterEach(function() {
-    engine.stop();
+    global.engine.stop();
   });
 
   describe('get', function() {

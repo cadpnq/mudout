@@ -3,7 +3,7 @@ const misc = require('./misc');
 
 class Watcher {
   constructor(packageFolder = '') {
-    this.packages = new Set();
+    this.packagePaths = new Set();
     this.changes = new Set();
     this.packageFolder = packageFolder;
 
@@ -19,8 +19,8 @@ class Watcher {
     this.watcher.on('change', addChange);
   }
 
-  addPackage(name) {
-    this.packages.add(name);
+  addPackage(path) {
+    this.packagePaths.add(path);
   }
 
   initializePackages() {
@@ -54,8 +54,8 @@ class Watcher {
 
   start() {
     global.packages.addWatcher(this);
-    for (let name of this.packages) {
-      let path = `${global.config.packageRoot}/${name}/${this.packageFolder}`;
+    for (let packagePath of this.packagePaths) {
+      let path = `${packagePath}/${this.packageFolder}`;
       for (let file of misc.walkSync(path)) {
         this.doLoad(file);
       }
@@ -64,8 +64,8 @@ class Watcher {
   }
 
   stop() {
-    for (let name of this.packages) {
-      this.watcher.unwatch(`${global.config.packageRoot}/${name}/${this.packageFolder}`);
+    for (let packagePath of this.packagePaths) {
+      this.watcher.unwatch(`${packagePath}/${this.packageFolder}`);
     }
     this.watcher.close();
   }
