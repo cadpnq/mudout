@@ -1,21 +1,19 @@
-const engine = require('./../../../../../engine/engine');
-
 describe('Attributes', function() {
   beforeEach(function() {
     let config = {
+      packageRoots: global.testConfig.packageRoots,
       packages: [
-        'engine',
-        'mudout/attributes',
-        'mudout/test-packages/attributes'
+        'core:engine',
+        'mudout:attributes',
+        'mudout:test-packages/attributes'
       ],
-      packageRoot: 'packages',
       enableLogging: false
     };
-    engine.start(config);
+    global.engine.start(config);
   });
 
   afterEach(function() {
-    engine.stop();
+    global.engine.stop();
   });
 
   describe('AttributeTest', function() {
