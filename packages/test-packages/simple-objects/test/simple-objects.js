@@ -95,7 +95,7 @@ describe('Simple Objects', function() {
           assert.equal(obj.save().references.instanceRef, obj2.uid);
         });
 
-        it('should restore instances when object is loaded', function() {
+        it('should restore references when saved object is loaded', function() {
           let obj3 = global.objects.loadInstance(obj.save());
           assert.equal(obj3.instanceRef, obj2);
         });
