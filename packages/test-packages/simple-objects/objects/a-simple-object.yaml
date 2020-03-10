@@ -1,0 +1,4 @@
+name: A simple object
+id: a-simple-object
+type: simple-object
+staticVar: 1
