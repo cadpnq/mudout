@@ -10,12 +10,6 @@ exports.time = (start) => {
   }
 }
 
-// note that this will break with default arguments
-exports.arglist = (f) => {
-  let s = f.toString();
-  return s.substring(s.indexOf("{") + 1, s.indexOf("}")).replace(/\s/g, "").split(",");
-}
-
 function walkSync(dir, files = []) {
   if (fs.existsSync(dir)) {
     for (let file of fs.readdirSync(dir)) {
