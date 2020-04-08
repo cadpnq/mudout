@@ -1,0 +1,11 @@
+packageRoots:
+  core: packages
+packages:
+ - core:engine
+instancePath: instances
+systemRate: 500
+minimumWait: 20
+activeHotload: true
+sessionEntrypoints:
+logPath: logs
+enableLogging: true

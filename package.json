@@ -1,0 +1,24 @@
+{
+  "name": "concretion",
+  "version": "0.0.0",
+  "description": "",
+  "author": "Nicky Nickell <nicky.nickell@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "chokidar": "^3.3.1",
+    "js-yaml": "^3.9.1",
+    "node-ipc": "^9.1.1",
+    "uniqid": "^5.0.3",
+    "winston": "^3.1.0",
+    "yargs": "^15.1.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.0.2"
+  },
+  "scripts": {
+    "engine": "node engine/backend.js",
+    "test": "node testRunner.js"
+  }
+}

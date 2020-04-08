@@ -1,0 +1,5 @@
+name: internal-simple-object
+mixins:
+  - GameObject
+  - Internal
+  - SimpleObject

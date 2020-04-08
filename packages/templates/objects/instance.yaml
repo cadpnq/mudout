@@ -1,0 +1,4 @@
+type: instance
+of: some-object
+name: some-name
+instanceData:
