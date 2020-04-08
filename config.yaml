@@ -1,5 +1,6 @@
 packageRoots:
   core: packages
+  mudout: packages/mudout
 packages:
  - core:engine
 instancePath: instances
