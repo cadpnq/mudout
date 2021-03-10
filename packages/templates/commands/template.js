@@ -6,6 +6,7 @@ module.exports = {
       keywords: [],
       argumentNames: [],
       argumentKeywords: {}
+    }
   },
   traverse: false,
   strict: false,
