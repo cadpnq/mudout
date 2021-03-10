@@ -8,5 +8,6 @@ systemRate: 500
 minimumWait: 20
 activeHotload: true
 sessionEntrypoints:
+  dashboard: dashboard
 logPath: logs
 enableLogging: true
