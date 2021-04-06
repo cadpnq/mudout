@@ -12,7 +12,7 @@ const yargs = require('yargs')
   .argv;
 
 global.engine = require('./engine/engine');
-global.testConfig = yaml.safeLoad(fs.readFileSync(yargs.config));
+global.testConfig = yaml.load(fs.readFileSync(yargs.config));
 
 let mocha = new Mocha();
 

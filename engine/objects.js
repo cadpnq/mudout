@@ -39,7 +39,7 @@ class ObjectManager extends watcher {
     }
 
     for (let file of misc.walkSync(`${path}/types/`)) {
-      let {name, mixins} = yaml.safeLoad(fs.readFileSync(file));
+      let {name, mixins} = yaml.load(fs.readFileSync(file));
       this.defineType(name, ...mixins);
     }
   }
@@ -50,7 +50,7 @@ class ObjectManager extends watcher {
 
   load(path, data) {
     if (!data) {
-      data = yaml.safeLoad(fs.readFileSync(path));
+      data = yaml.load(fs.readFileSync(path));
     }
 
     if (data.type == 'instance') {
@@ -175,7 +175,7 @@ class ObjectManager extends watcher {
     } else {
       let fname = `${global.config.instancePath}/${uid}`;
       if (fs.existsSync(fname)) {
-        let data = yaml.safeLoad(fs.readFileSync(fname));
+        let data = yaml.load(fs.readFileSync(fname));
         // We should probably be validating the data here...
         let object = this.objects.get(data.id);
         let instance = new object;

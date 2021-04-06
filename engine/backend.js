@@ -9,7 +9,7 @@ const yargs = require('yargs')
   .version(false)
   .argv;
 
-engine.start(yaml.safeLoad(fs.readFileSync(yargs.config)));
+engine.start(yaml.load(fs.readFileSync(yargs.config)));
 
 ipc.config.id = 'core';
 ipc.config.retry = 1500;
