@@ -86,6 +86,7 @@ let log = blessed.log({
 });
 
 tailFile({file: 'logs/log.log'}, (err, line) => {
+  if (err) return;
   log.log(line.trim());
   screen.render();
 });
