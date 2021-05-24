@@ -1,9 +1,5 @@
-let Persistent = (extend) => {
+module.exports = function Persistent(extend) {
   return class Persistent extends extend {
-    constructor() {
-      super();
-    }
-
     set dirty(value) {
       super.dirty = value;
       if (value) {
@@ -12,12 +8,7 @@ let Persistent = (extend) => {
         this.unregister('persist');
       }
     }
-
-    get dirty() {
-      return super.dirty;
-    }
-  }
+  };
 };
 
-Persistent.priority = 50;
-module.exports = Persistent;
+module.exports.priority = 50;

@@ -1,4 +1,4 @@
-let Template = (extend) => {
+module.exports = function Template(extend) {
   return class Template extends extend {
     constructor() {
       super();
@@ -37,8 +37,7 @@ let Template = (extend) => {
     delete() {
       super.delete();
     }
-  }
+  };
 };
 
-Template.priority = 0;
-module.exports = Template;
+module.exports.priority = 0;

@@ -1,58 +1,55 @@
 const uniqid = require('uniqid');
 
-let GameObject = (extend) => {
+module.exports = function GameObject(extend) {
   return class GameObject {
+    #dirty = true;
+    #instanceData = {};
+    systems = new Set();
+
+    static instances = new Set();
+    static staticVariables = new Map();
+    static instanceVariables = new Map();
+
     constructor() {
-      this._dirty = true;
-      this.systems = new Set();
-      this.instanceData = {};
+      this.constructor.instances.add(this);
 
-      this.instances.add(this);
-
-      for (let [name, {value, expose, reference}] of this.instanceVariables) {
-        Object.defineProperty(this, `_${name}`, {
+      for (const [name, {value, expose, reference}] of this.constructor.instanceVariables) {
+        Object.defineProperty(this, `#${name}`, {
           get: () => {
-            return this.instanceData[name];
+            return this.#instanceData[name];
           },
           set: (value) => {
-            if (value != this.instanceData[name]) {
-              this.instanceData[name] = value;
-              this.dirty = true;
+            if (value !== this.#instanceData[name]) {
+              this.#instanceData[name] = value;
+              this.#dirty = true;
             }
           }
         });
         if (expose) {
           Object.defineProperty(this, name, {
             get: () => {
-              return this[`_${name}`];
-            },
+              return this[`#${name}`];
+            }, 
             set: (value) => {
-              this[`_${name}`] = value;
+              this[`#${name}`] = value;
             }
           });
         }
-        if (value != undefined) {
+        if (value !== undefined) {
           this[name] = value;
         }
       }
     }
 
     set dirty(value) {
-      this._dirty = value;
+      this.#dirty = value;
     }
 
     get dirty() {
-      return this._dirty;
+      return this.#dirty;
     }
 
     static initialize(data) {
-      this.staticVariables = new Map();
-      this.instanceVariables = new Map();
-      this.prototype.staticVariables = this.staticVariables;
-      this.prototype.instanceVariables = this.instanceVariables;
-      this.instances = new Set();
-      this.prototype.instances = this.instances;
-
       this.defineStaticVariable('name', {save: true});
       this.defineStaticVariable('id', {save: true});
       this.defineStaticVariable('type', {save: true});
@@ -61,27 +58,26 @@ let GameObject = (extend) => {
     }
 
     static modify(data) {
-      this.baseData = data;
-      for (let [name, value] of this.staticVariables) {
+      for (const [name, value] of this.staticVariables) {
         if (data[name]) {
           this.prototype[name] = data[name];
         }
       }
 
-      for (let instance of this.instances) {
+      for (const instance of this.instances) {
         instance.modify(data);
       }
     }
 
     modify(data) {
       if (data.instanceData) {
-        for (let name in data.instanceData) {
+        for (const name in data.instanceData) {
           this[name] = data.instanceData[name];
         }
       }
 
       if (data.references) {
-        for (let name in data.references) {
+        for (const name in data.references) {
           this[name] = global.objects.get(data.references[name]);
         }
       }
@@ -102,15 +98,15 @@ let GameObject = (extend) => {
     }
 
     save() {
-      let data = {instanceData: {}, references: {}};
-      for (let [name, {save}] of this.staticVariables) {
+      const data = {instanceData: {}, references: {}};
+      for (const [name, {save}] of this.constructor.staticVariables) {
         if (save) {
           data[name] = this[name];
         }
       }
 
-      for (let [name, {reference}] of this.instanceVariables) {
-        if (this[name] != undefined) {
+      for (const [name, {reference}] of this.constructor.instanceVariables) {
+        if (this[name] !== undefined) {
           if (reference) {
             data.references[name] = this[name].uid;
           } else {
@@ -123,10 +119,10 @@ let GameObject = (extend) => {
     }
 
     delete() {
-      for (let system of this.systems) {
+      for (const system of this.systems) {
         this.unregister(system);
       }
-      this.instances.delete(this);
+      this.constructor.instances.delete(this);
       global.objects.instances.delete(this.uid);
     }
 
@@ -158,8 +154,7 @@ let GameObject = (extend) => {
     static defineInstanceVariable(name, {value, expose = true, reference = false} = {}) {
       this.instanceVariables.set(name, {value, expose, reference});
     }
-  }
+  };
 };
 
-GameObject.priority = 0;
-module.exports = GameObject;
+module.exports.priority = 0;
