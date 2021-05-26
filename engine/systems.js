@@ -1,17 +1,16 @@
 const watcher = require('./watcher');
 const misc = require('./misc');
+const { map } = require('blessed-contrib');
 
 class System {
-  constructor() {
-    this.objects = new Set();
-    this.index = new Map();
-    this.indexBy = '';
-    this.priority = 0;
-    this.interval = 0;
-    this.elapsed = 0;
-    this.name;
-    this.totalTime = 0;
-  }
+  objects = new Set();
+  index = new Map();
+  indexBy = '';
+  priority = 0;
+  interval = 0;
+  elapsed = 0;
+  name;
+  totalTime = 0;
 
   each(obj, t) {
   }
@@ -24,13 +23,15 @@ class System {
 
   update(t) {
     this.elapsed = 0;
-
-    let totalStart = misc.time();
+    
+    const totalStart = misc.time();
+    
     this.before(this, t);
-    for (let obj of this.objects) {
+    for (const obj of this.objects) {
       this.each(obj, t);
     }
     this.after(this, t);
+
     this.totalTime += misc.time(totalStart);
   }
 
@@ -49,15 +50,16 @@ class System {
   }
 }
 
-class SystemManager extends watcher {
+module.exports = class SystemManager extends watcher {
+  systems = new Map();
+  running = false;
+  interval = global.config.systemRate;
+  lastTick;
+  timeout;
+  waitTime;
+
   constructor() {
     super('systems');
-    this.systems = new Map();
-    this.running = false;
-    this.interval = global.config.systemRate;
-    this.lastTick;
-    this.timeout
-    this.waitTime = 0;
   }
 
   load(path, data) {
@@ -74,8 +76,8 @@ class SystemManager extends watcher {
       this.systems.set(data.name, system);
     }
 
-    for (let name in data) {
-      let value = data[name];
+    for (const name in data) {
+      const value = data[name];
       if (value instanceof Function) {
         system[name] = value.bind(system);
       } else {
@@ -86,15 +88,15 @@ class SystemManager extends watcher {
 
   // Instead of collecting/sorting a list each time it would be better to pre-sort the systems.
   update(t) {
-    let systems = [];
-    for (let system of this.systems.values()) {
+    const systems = [];
+    for (const system of this.systems.values()) {
       system.elapsed += t;
       if (system.elapsed >= system.interval) {
         systems.push(system);
       }
     }
     systems.sort((a,b) => { return a.priority > b.priority; });
-    for (let system of systems) {
+    for (const system of systems) {
       system.update(t);
     }
   }
@@ -105,9 +107,9 @@ class SystemManager extends watcher {
     }
     if (!this.running) return;
 
-    let start = Date.now();
+    const start = Date.now();
     this.update(start - this.lastTick);
-    let end = Date.now();
+    const end = Date.now();
     this.lastTick = start;
 
     this.waitTime = this.interval - (end - start);
@@ -147,6 +149,4 @@ class SystemManager extends watcher {
   has(name) {
     return this.systems.has(name);
   }
-}
-
-module.exports = SystemManager;
+};

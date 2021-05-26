@@ -2,8 +2,8 @@ const watcher = require('./watcher');
 const misc = require('./misc');
 
 function parseArgs(command, keywords = [], argumentNames = [], argumentKeywords = []) {
-  let words = command.split(/\s/);
-  let ret = {
+  const words = command.split(/\s/);
+  const ret = {
     command: words.shift(),
     keywords: {},
     arguments: {},
@@ -12,15 +12,15 @@ function parseArgs(command, keywords = [], argumentNames = [], argumentKeywords 
     freeArgument: ''};
   words.reverse();
   let argumentValue = [];
-  for (let word of words) {
-    let _word = word.toLowerCase();
+  for (const word of words) {
+    const _word = word.toLowerCase();
 
     if (argumentNames.includes(_word)) {
       argumentValue.reverse();
       ret.argumentKeywords[_word] = {};
       ret.arguments[_word] = [];
-      for (word2 of argumentValue) {
-        let _word2 = word2.toLowerCase();
+      for (const word2 of argumentValue) {
+        const _word2 = word2.toLowerCase();
         if (argumentKeywords[_word] && argumentKeywords[_word].includes(_word2)) {
           ret.argumentKeywords[_word][_word2] = true;
         } else {
@@ -35,9 +35,9 @@ function parseArgs(command, keywords = [], argumentNames = [], argumentKeywords 
   }
 
   argumentValue.reverse();
-  let freeArgument = [];
-  for (let word of argumentValue) {
-    let _word = word.toLowerCase();
+  const freeArgument = [];
+  for (const word of argumentValue) {
+    const _word = word.toLowerCase();
     if (keywords.includes(_word)) {
       ret.keywords[_word] = true;
     } else {
@@ -50,9 +50,10 @@ function parseArgs(command, keywords = [], argumentNames = [], argumentKeywords 
 }
 
 class CommandContext {
+  commands = new Map();
+  regexes = new Map();
+  
   constructor(name) {
-    this.commands = new Map();
-    this.regexes = new Map();
     this.name = name;
   }
 
@@ -65,8 +66,8 @@ class CommandContext {
     this.before = before;
     this.after = after;
 
-    for (let name in commands) {
-      let {func, keywords, argumentNames, argumentKeywords} = commands[name];
+    for (const name in commands) {
+      const {func, keywords, argumentNames, argumentKeywords} = commands[name];
       this.commands.set(name, (session, context, text) => {
         before(session, context);
         if(!func(session, context, parseArgs(text, keywords, argumentNames, argumentKeywords))) {
@@ -77,8 +78,8 @@ class CommandContext {
   }
 
   find(name) {
-    let matches = [];
-    for (let [command, _] of this.commands.entries()) {
+    const matches = [];
+    for (const [command, _] of this.commands.entries()) {
       if (this.strict) {
         if (name == command) {
           matches.push(command);
@@ -102,18 +103,19 @@ class CommandContext {
 }
 
 class ContextInstance {
+  contextVariables = {};
+  parentContext;
+
   constructor(user, context) {
-    this.contextVariables = {};
     this.user = user;
     this.context = context;
-    this.parentContext;
   }
 
   extendTo(context) {
   }
 
   find(name) {
-    let matches = this.context.find(name);
+    const matches = this.context.find(name);
     if (this.context.traverse && this.parentContext) {
       return matches.concat(this.parentContext.match(name));
     } else {
@@ -122,7 +124,7 @@ class ContextInstance {
   }
 
   get(name) {
-    let func = this.context.get(name);
+    const func = this.context.get(name);
     if (func) {
       return func;
     } else if (this.context.traverse && this.parentContext) {
@@ -131,20 +133,20 @@ class ContextInstance {
   }
 
   exec(s, text) {
-    let command = text.split(' ')[0];
+    const command = text.split(' ')[0];
     let args = '';
     if (text.indexOf(' ')) {
       args = text.slice(text.indexOf(' ') + 1);
     }
 
-    let commands = this.find(command);
+    const commands = this.find(command);
     if (commands.length == 0) {
       return; // this is an unknown command situation
-    } else if (commands.length != 1) {
+    } else if (commands.length !== 1) {
       return; // this is an ambigious command situation
     }
 
-    let func = this.get(commands[0]);
+    const func = this.get(commands[0]);
     if (!func) {
       return;
     }
@@ -160,10 +162,11 @@ class ContextInstance {
   }
 }
 
-class CommandManager extends watcher {
+module.exports = class CommandManager extends watcher {
+  contexts = new Map();
+
   constructor() {
     super('commands');
-    this.contexts = new Map();
   }
 
   load(path, data) {
@@ -179,7 +182,6 @@ class CommandManager extends watcher {
     }
     context.load(data);
   }
-}
+};
 
-CommandManager.parseArgs = parseArgs;
-module.exports = CommandManager;
+module.exports.parseArgs = parseArgs;

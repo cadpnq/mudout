@@ -5,28 +5,32 @@ const parse = require('path').parse;
 const watcher = require('./watcher');
 const misc = require('./misc');
 
-class ObjectManager extends watcher {
+module.exports = class ObjectManager extends watcher {
+  types = new Map();
+  typeDefinitions = new Map();
+  objects = new Map();
+  instances = new Map();
+  mixins = new Map();
+  namedInstances = new Map();
+  deferredInstances = new Set();
+  initialLoad = true;
+
   constructor(options) {
     super('objects');
-    this.types = new Map();
-    this.typeDefinitions = new Map();
-    this.objects = new Map();
-    this.instances = new Map();
-    this.mixins = new Map();
-    this.namedInstances = new Map();
-    this.deferredInstances = new Set();
-    this.initialLoad = true;
   }
 
   start() {
     super.start();
     this.initialLoad = false;
+
     global.logger.info('Loading instances...');
+
     let instances = 0;
     for (let file of misc.walkSync(`${global.config.instancePath}`)) {
       this.get(parse(file).name).dirty = false;
       instances += 1;
     }
+
     global.logger.info(`Loaded ${instances} instances`);
     this.checkDeferred();
   }
@@ -34,12 +38,12 @@ class ObjectManager extends watcher {
   addPackage(path) {
     super.addPackage(path);
 
-    for (let file of misc.walkSync(`${path}/mixins/`)) {
+    for (const file of misc.walkSync(`${path}/mixins/`)) {
       this.addMixin(require(`./../${file}`))
     }
 
-    for (let file of misc.walkSync(`${path}/types/`)) {
-      let {name, mixins} = yaml.load(fs.readFileSync(file));
+    for (const file of misc.walkSync(`${path}/types/`)) {
+      const {name, mixins} = yaml.load(fs.readFileSync(file));
       this.defineType(name, ...mixins);
     }
   }
@@ -60,7 +64,7 @@ class ObjectManager extends watcher {
       }
       let instance = this.instances.get(data.name);
       if (!instance) {
-        let object = this.objects.get(data.of);
+        const object = this.objects.get(data.of);
         instance = new object;
         object.new(instance);
         instance.uid = data.name;
@@ -81,9 +85,9 @@ class ObjectManager extends watcher {
   }
 
   checkDeferred() {
-    let deferred = Array.from(this.deferredInstances);
+    const deferred = Array.from(this.deferredInstances);
     this.deferredInstances = new Set();
-    for (let instance of deferred) {
+    for (const instance of deferred) {
       this.load(instance.path, instance.data);
     }
   }
@@ -118,7 +122,7 @@ class ObjectManager extends watcher {
     } else {
       global.logger.info(`Ammending type with: ${name}, ${mixins}`);
     }
-    for (let mixin of mixins) {
+    for (const mixin of mixins) {
       definition.push(mixin);
     }
   }
@@ -130,15 +134,18 @@ class ObjectManager extends watcher {
 
   finalizeTypes() {
     global.logger.info('Finalizing types');
-    for (let [name, definition] of this.typeDefinitions) {
-      let mixinFunctions = definition.map((m) => {
+
+    for (const [name, definition] of this.typeDefinitions) {
+      const mixinFunctions = definition.map((m) => {
         return this.mixins.get(m);
       });
-      mixinFunctions.sort((a,b) => { return a.priority > b.priority; });
+      mixinFunctions.sort((a,b) => {
+        return a.priority > b.priority;
+      });
 
       this.types.set(name, (data) => {
         let objectClass;
-        for (let mixin of mixinFunctions) {
+        for (const mixin of mixinFunctions) {
           objectClass = mixin(objectClass);
         }
         objectClass.initialize(data);
@@ -148,13 +155,13 @@ class ObjectManager extends watcher {
       });
 
       if (definition.includes('Internal')) {
-        this.load(name, {name: name, id: name, type: name});
+        this.load(name, {name, id: name, type: name});
       }
     }
   }
 
   new(id, ...args) {
-    let object = this.objects.get(id);
+    const object = this.objects.get(id);
     let instance = new object;
     instance = object.new(instance, ...args);
     this.instances.set(instance.uid, instance);
@@ -162,8 +169,8 @@ class ObjectManager extends watcher {
   }
 
   loadInstance(data) {
-    let object = this.objects.get(data.id);
-    let instance = new object;
+    const object = this.objects.get(data.id);
+    const instance = new object;
     object.load(instance, data);
     this.instances.set(instance.uid, instance);
     return instance;
@@ -173,18 +180,16 @@ class ObjectManager extends watcher {
     if (this.instances.has(uid)) {
       return this.instances.get(uid);
     } else {
-      let fname = `${global.config.instancePath}/${uid}`;
+      const fname = `${global.config.instancePath}/${uid}`;
       if (fs.existsSync(fname)) {
-        let data = yaml.load(fs.readFileSync(fname));
+        const data = yaml.load(fs.readFileSync(fname));
         // We should probably be validating the data here...
-        let object = this.objects.get(data.id);
-        let instance = new object;
+        const object = this.objects.get(data.id);
+        const instance = new object;
         this.instances.set(uid, instance);
         object.load(instance, data);
         return instance;
       }
     }
   }
-}
-
-module.exports = ObjectManager;
+};
