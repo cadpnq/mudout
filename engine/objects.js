@@ -26,7 +26,7 @@ module.exports = class ObjectManager extends watcher {
     global.logger.info('Loading instances...');
 
     let instances = 0;
-    for (let file of misc.walkSync(`${global.config.instancePath}`)) {
+    for (const file of misc.walkSync(`${global.config.instancePath}`)) {
       this.get(parse(file).name).dirty = false;
       instances += 1;
     }
@@ -57,7 +57,7 @@ module.exports = class ObjectManager extends watcher {
       data = yaml.load(fs.readFileSync(path));
     }
 
-    if (data.type == 'instance') {
+    if (data.type === 'instance') {
       if (this.initialLoad || !this.objectReady(data.of)) {
         this.defer(path, data);
         return;
@@ -101,7 +101,7 @@ module.exports = class ObjectManager extends watcher {
   }
 
   instanceReady(uid) {
-    if (uid == undefined) {
+    if (uid === undefined) {
       return true;
     } else {
       return this.instances.has(uid);
