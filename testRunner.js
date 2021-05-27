@@ -14,14 +14,14 @@ const yargs = require('yargs')
 global.engine = require('./engine/engine');
 global.testConfig = yaml.load(fs.readFileSync(yargs.config));
 
-let mocha = new Mocha(yaml.load(fs.readFileSync('.mocharc.yml')));
+const mocha = new Mocha(yaml.load(fs.readFileSync('.mocharc.yml')));
 
-for (let file of misc.walkSync('test')) {
+for (const file of misc.walkSync('test')) {
   mocha.addFile(file);
 }
 
-for (let rootName in testConfig.packageRoots) {
-  for (let file of misc.walkSync(testConfig.packageRoots[rootName])) {
+for (const rootName in testConfig.packageRoots) {
+  for (const file of misc.walkSync(testConfig.packageRoots[rootName])) {
     if (path.dirname(file).endsWith('test')) {
       mocha.addFile(file);
     }
