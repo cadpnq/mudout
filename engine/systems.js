@@ -105,7 +105,9 @@ module.exports = class SystemManager extends watcher {
     if (this.timeout) {
       clearTimeout(this.timeout);
     }
-    if (!this.running) return;
+    if (!this.running) {
+      return;
+    }
 
     const start = Date.now();
     this.update(start - this.lastTick);

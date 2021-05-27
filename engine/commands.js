@@ -81,7 +81,7 @@ class CommandContext {
     const matches = [];
     for (const [command, _] of this.commands.entries()) {
       if (this.strict) {
-        if (name == command) {
+        if (name === command) {
           matches.push(command);
         }
       } else {
@@ -140,7 +140,7 @@ class ContextInstance {
     }
 
     const commands = this.find(command);
-    if (commands.length == 0) {
+    if (commands.length === 0) {
       return; // this is an unknown command situation
     } else if (commands.length !== 1) {
       return; // this is an ambigious command situation

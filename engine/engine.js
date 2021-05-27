@@ -39,7 +39,7 @@ exports.start = (config, start = true) => {
   if (start) {
     commands.start();
   }
-}
+};
 
 exports.stop = () => {
   if (global.systems) {
@@ -51,4 +51,4 @@ exports.stop = () => {
   if (global.commands) {
     global.commands.stop();
   }
-}
+};

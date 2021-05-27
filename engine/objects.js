@@ -39,7 +39,7 @@ module.exports = class ObjectManager extends watcher {
     super.addPackage(path);
 
     for (const file of misc.walkSync(`${path}/mixins/`)) {
-      this.addMixin(require(`./../${file}`))
+      this.addMixin(require(`./../${file}`));
     }
 
     for (const file of misc.walkSync(`${path}/types/`)) {

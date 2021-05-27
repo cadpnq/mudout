@@ -8,7 +8,7 @@ exports.time = (start) => {
   } else {
     return process.hrtime();
   }
-}
+};
 
 function walkSync(dir, files = []) {
   if (fs.existsSync(dir)) {
@@ -28,4 +28,4 @@ exports.walkSync = walkSync;
 exports.requireReload = (modulePath) => {
   delete require.cache[require.resolve(modulePath)];
   return require(modulePath);
-}
+};

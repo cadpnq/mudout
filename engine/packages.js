@@ -10,7 +10,7 @@ module.exports = class PackageManager {
 
   resolvePackage(name) {
     const [root, path] = name.split(':');
-    const rootPath = global.config.packageRoots[root]
+    const rootPath = global.config.packageRoots[root];
     if (!rootPath) {
       global.logger.error(`The package root: ${root} is unknown`);
       return '';
