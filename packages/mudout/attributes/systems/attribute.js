@@ -28,7 +28,7 @@ module.exports = {
       obj.nextValue = max;
     }
 
-    if (obj.value != obj.nextValue) {
+    if (obj.value !== obj.nextValue) {
       obj.object.register('attributes');
       obj.active = true;
     } else {
