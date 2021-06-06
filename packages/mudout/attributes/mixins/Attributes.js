@@ -136,7 +136,7 @@ module.exports = function Attributes(extend) {
     }
 
     forceAttributeUpdate(t) {
-      for (let [,attribute] of this.attributes) {
+      for (const [,attribute] of this.attributes) {
         attribute.runSystem('attribute', t);
         attribute.value = attribute.nextValue;
       }
