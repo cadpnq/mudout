@@ -1,5 +1,5 @@
-let fs = require('fs');
-let yaml = require('js-yaml');
+const fs = require('fs');
+const yaml = require('js-yaml');
 
 module.exports = {
   name: 'persist',
