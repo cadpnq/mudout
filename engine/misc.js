@@ -3,12 +3,12 @@ const path = require('path');
 
 exports.time = (start) => {
   if (start) {
-    let time = process.hrtime(start);
+    const time = process.hrtime(start);
     return (time[0] / 1000) + (time[1]/1000000);
   } else {
     return process.hrtime();
   }
-}
+};
 
 function walkSync(dir, files = []) {
   if (fs.existsSync(dir)) {
@@ -28,4 +28,4 @@ exports.walkSync = walkSync;
 exports.requireReload = (modulePath) => {
   delete require.cache[require.resolve(modulePath)];
   return require(modulePath);
-}
+};

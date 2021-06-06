@@ -1,24 +1,19 @@
 const EventEmitter = require('events');
 
-let Evented = (extend) => {
+module.exports = (extend) => {
   return class Evented extends extend {
+    emitter = new EventEmitter();
+    static externalEvents = new Set();
+
     constructor() {
       super();
-      this.emitter = new EventEmitter();
-
-      for (let name of this.externalEvents) {
+      for (const name of this.constructor.externalEvents) {
         this.emitter.on(name, (...args) => {
           if (this.session) {
             this.session.emit(name, ...args);
           }
         });
       }
-    }
-
-    static initialize(data) {
-      super.initialize(data);
-      this.externalEvents = new Set();
-      this.prototype.externalEvents = this.externalEvents;
     }
 
     static defineExternalEvent(name) {
@@ -32,8 +27,11 @@ let Evented = (extend) => {
     on(name, func) {
       this.emitter.on(name, func);
     }
-  }
+
+    once(name, func) {
+      this.emitter.once(name, func);
+    }
+  };
 };
 
-Evented.priority = 50;
-module.exports = Evented;
+module.exports.priority = 50;

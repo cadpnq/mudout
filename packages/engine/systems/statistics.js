@@ -3,12 +3,12 @@ module.exports = {
   name: 'statistics',
   priority: 0,
   interval: 500,
-  before: (system) => {
-    let data = {};
-    let systemData = [];
+  before(system) {
+    const data = {};
+    const systemData = [];
     let systemsTotal = 0;
-    for (let [name, system] of global.systems.systems) {
-      let line = [
+    for (const [name, system] of global.systems.systems) {
+      const line = [
         name,
         system.priority.toString(),
         system.interval.toString(),
@@ -28,7 +28,7 @@ module.exports = {
     data.mem = process.memoryUsage();
     this.data = data;
   },
-  each: (obj, t) => {
+  each(obj, t) {
     obj.emit('statistics', this.data);
   }
 };

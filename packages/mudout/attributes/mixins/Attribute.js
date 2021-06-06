@@ -1,18 +1,16 @@
-let Attribute = (extend) => {
-  class Attribute extends extend {
-    constructor() {
-      super();
-      this.modifiers = new Set();
-      this._active = false;
-      this._value = 0;
-      this._baseValue = 0;
-    }
+module.exports = function Attribute(extend) {
+  return class Attribute extends extend {
+    modifiers = new Set();
+    #active = false;
+    #value = 0;
+    #baseValue = 0;
 
     set active(value) {
-      this._active = value;
+      this.#active = value;
+      
       if (value) {
         this.register('attribute');
-        for (let attribute of this.children) {
+        for (const attribute of this.children) {
           if (this.object.attributes.has(attribute)) {
             this.object.attributes.get(attribute).active = true;
           }
@@ -23,7 +21,7 @@ let Attribute = (extend) => {
     }
 
     get active() {
-      return this._active;
+      return this.#active;
     }
 
     set value(value) {
@@ -45,35 +43,27 @@ let Attribute = (extend) => {
 
       this.instanceModifier = (value - this.baseValue);
       this.active = true;
-      this._value = value;
+      this.#value = value;
     }
 
     get value() {
-      return this._value;
+      return this.#value;
     }
 
     set baseValue(value) {
-      if (this._baseValue != value) {
-        this._baseValue = value;
+      if (this.#baseValue !== value) {
+        this.#baseValue = value;
         this.active = true;
       }
     }
 
     get baseValue() {
-      return this._baseValue;
+      return this.#baseValue;
     }
 
     static initialize(data) {
       super.initialize(data);
       this.defineInstanceVariable('instanceModifier', {value: 0});
-    }
-
-    static modify(data) {
-      super.modify(data);
-    }
-
-    modify(data) {
-      super.modify(data);
     }
 
     static new(obj, {object, name, value, minimum, maximum, rate, func, children}) {
@@ -84,31 +74,23 @@ let Attribute = (extend) => {
       obj.name = name;
       obj.baseValue = value;
       obj.value = value;
-      if (minimum) obj.minimum = minimum;
-      if (maximum) obj.maximum = maximum;
-      if (rate) obj.rate = rate;
-      if (func) obj.func = func;
-
+      if (minimum) {
+        obj.minimum = minimum;
+      }
+      if (maximum) {
+        obj.maximum = maximum;
+      }
+      if (rate) {
+        obj.rate = rate;
+      }
+      if (func) {
+        obj.func = func;
+      }
       obj.active = true;
 
       return obj;
     }
-
-    static load(obj, data) {
-      super.load(obj, data);
-      return obj;
-    }
-
-    save() {
-      return super.save();
-    }
-
-    delete() {
-      super.delete();
-    }
-  }
-  return Attribute;
+  };
 };
 
-Attribute.priority = 100;
-module.exports = Attribute;
+module.exports.priority = 100;

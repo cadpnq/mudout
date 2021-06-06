@@ -1,4 +1,4 @@
-const PackageManager = require('./../engine/packages');
+const PackageManager = require('./../engine/PackageManager');
 const Watcher = require('./../engine/watcher');
 
 describe('Packages', function() {

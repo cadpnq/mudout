@@ -4,7 +4,7 @@ module.exports = {
   priority: -1,
   interval: Infinity,
   indexBy: 'uid',
-  get: function (name) {
+  get(name) {
     if (this.index.has(name)) {
       return this.index.get(name).value;
     } else {

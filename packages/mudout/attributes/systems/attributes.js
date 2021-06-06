@@ -4,8 +4,8 @@ module.exports = {
   interval: 500,
   each: (obj, t) => {
     let anyActive = false;
-    for (let [name,attribute] of obj.attributes) {
-      if (attribute.nextValue != attribute.value) {
+    for (const [,attribute] of obj.attributes) {
+      if (attribute.nextValue !== attribute.value) {
         anyActive = true;
         attribute.value = attribute.nextValue;
       } else {

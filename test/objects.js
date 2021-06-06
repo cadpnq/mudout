@@ -1,13 +1,13 @@
 const engine = require('./../engine/engine');
 
-let TestMixin = (extend) => {
+const TestMixin = (extend) => {
   return class TestMixin extends extend {
-  }
+  };
 };
 
 describe('ObjectManager', function() {
   beforeEach(function() {
-    let config = {
+    const config = {
       packages: [
       ],
       enableLogging: false

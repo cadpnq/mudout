@@ -6,14 +6,14 @@ const tailFile = require('winston/lib/winston/tail-file');
 const memScale = 1024;
 const graphScale = 1024;
 const graphWidth = 24;
-let graphX = new Array(graphWidth);
+const graphX = new Array(graphWidth);
 graphX.fill(' ');
 
-let usedData = new Array(graphWidth);
+const usedData = new Array(graphWidth);
 usedData.fill(0);
-let totalData = new Array(graphWidth);
+const totalData = new Array(graphWidth);
 totalData.fill(0);
-let rssData = new Array(graphWidth);
+const rssData = new Array(graphWidth);
 rssData.fill(0);
 
 let systems = [];
@@ -23,12 +23,12 @@ let load = '';
 let objects = '';
 let wait = '';
 
-let ipc = new rawipc;
+const ipc = new rawipc;
 ipc.config.id = 'core';
 ipc.config.retry = 1500;
 ipc.config.silent = true;
 
-let screen = blessed.screen({
+const screen = blessed.screen({
   fullUnicode: true,
   forceUnicode: true,
   debug: true,
@@ -36,7 +36,7 @@ let screen = blessed.screen({
 
 screen.key(['escape', 'q', 'C-c'], (ch, key) => (process.exit(0)));
 
-let systemsTable = contrib.table({
+const systemsTable = contrib.table({
   parent: screen,
   interactive: false,
   shrink: true,
@@ -49,7 +49,7 @@ let systemsTable = contrib.table({
   fg: 'white',
 });
 
-let statusBox = blessed.box({
+const statusBox = blessed.box({
   parent: screen,
   label: 'Status',
   border: 'line',
@@ -58,12 +58,12 @@ let statusBox = blessed.box({
   height: '20%',
 });
 
-let statusTable = blessed.table({
+const statusTable = blessed.table({
   parent: statusBox,
   align: 'left',
 });
 
-let memoryGraph = contrib.line({
+const memoryGraph = contrib.line({
   parent: screen,
   top: '20%',
   width: '100%',
@@ -76,7 +76,7 @@ let memoryGraph = contrib.line({
   showLegend: true,
 });
 
-let log = blessed.log({
+const log = blessed.log({
   parent: screen,
   top: '40%',
   width: '100%',
@@ -86,7 +86,9 @@ let log = blessed.log({
 });
 
 tailFile({file: 'logs/log.log'}, (err, line) => {
-  if (err) return;
+  if (err) {
+    return;
+  }
   log.log(line.trim());
   screen.render();
 });

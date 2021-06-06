@@ -1,20 +1,21 @@
 const chokidar = require('chokidar');
 const misc = require('./misc');
 
-class Watcher {
+module.exports = class Watcher {
+  packagePaths = new Set();
+  changes = new Set();
+  watcher = chokidar.watch([], {
+    persistent: true,
+    ignoreInitial: true
+  });
+
   constructor(packageFolder = '') {
-    this.packagePaths = new Set();
-    this.changes = new Set();
     this.packageFolder = packageFolder;
 
-    this.watcher = chokidar.watch([], {
-      persistent: true,
-      ignoreInitial: true
-    });
-
-    let addChange = (path) => {
+    const addChange = (path) => {
       this.addChange(path);
-    }
+    };
+
     this.watcher.on('add', addChange);
     this.watcher.on('change', addChange);
   }
@@ -35,7 +36,7 @@ class Watcher {
   }
 
   loadChanges() {
-    for (let path of this.changes) {
+    for (const path of this.changes) {
       this.doLoad(path);
       this.changes.delete(path);
     }
@@ -54,21 +55,18 @@ class Watcher {
 
   start() {
     global.packages.addWatcher(this);
-    for (let packagePath of this.packagePaths) {
-      let path = `${packagePath}/${this.packageFolder}`;
-      for (let file of misc.walkSync(path)) {
+    for(const packagePath of this.packagePaths) {
+      const path = `${packagePath}/${this.packageFolder}`;
+      for (const file of misc.walkSync(path)) {
         this.doLoad(file);
       }
-      this.watcher.add(path);
     }
   }
 
   stop() {
-    for (let packagePath of this.packagePaths) {
+    for (const packagePath of this.packagePaths) {
       this.watcher.unwatch(`${packagePath}/${this.packageFolder}`);
     }
     this.watcher.close();
   }
-}
-
-module.exports = Watcher;
+};

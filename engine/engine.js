@@ -1,7 +1,7 @@
 
-const PackageManager = require('./packages');
+const PackageManager = require('./PackageManager');
 const SystemManager = require('./systems');
-const ObjectManager = require('./objects');
+const ObjectManager = require('./ObjectManager');
 const CommandManager = require('./commands');
 
 exports.start = (config, start = true) => {
@@ -13,11 +13,11 @@ exports.start = (config, start = true) => {
   logger.info('Starting engine');
 
   logger.info('Initializing package manager');
-  let packages = new PackageManager();
+  const packages = new PackageManager();
   global.packages = packages;
 
   logger.info('Initializing system manager');
-  let systems = new SystemManager();
+  const systems = new SystemManager();
   global.systems = systems;
 
   if (start) {
@@ -25,7 +25,7 @@ exports.start = (config, start = true) => {
   }
 
   logger.info('Initializing object manager');
-  let objects = new ObjectManager();
+  const objects = new ObjectManager();
   global.objects = objects;
 
   if (start) {
@@ -33,16 +33,22 @@ exports.start = (config, start = true) => {
   }
 
   logger.info('Initializing command manager');
-  let commands = new CommandManager();
+  const commands = new CommandManager();
   global.commands = commands;
 
   if (start) {
     commands.start();
   }
-}
+};
 
 exports.stop = () => {
-  if (global.systems) global.systems.stop();
-  if (global.objects) global.objects.stop();
-  if (global.commands) global.commands.stop();
-}
+  if (global.systems) {
+    global.systems.stop();
+  }
+  if (global.objects) {
+    global.objects.stop();
+  }
+  if (global.commands) {
+    global.commands.stop();
+  }
+};

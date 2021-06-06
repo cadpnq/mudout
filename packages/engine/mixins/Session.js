@@ -1,15 +1,16 @@
 const ipc = require('node-ipc');
 
-let Session = (extend) => {
-  return class Session extends extend {
+module.exports = function Session(extend) {
+  return class session extends extend {
+    socket;
+    context;
+    account;
+    character;
+    mode = 'user';
+    suppressedText = new Set();
+
     constructor() {
       super();
-      this.socket;
-      this.context;
-      this.account;
-      this.character;
-      this.mode = 'user';
-      this.suppressedText = new Set();
       this.register('sessions');
     }
 
@@ -23,7 +24,7 @@ let Session = (extend) => {
       this.setContext(global.config.sessionEntrypoints[this.mode]);
     }
 
-    exec(command) {
+    exec(comand) {
       if (this.context) {
         this.context.exec(this, command);
       }
@@ -42,14 +43,13 @@ let Session = (extend) => {
     }
 
     setContext(name) {
-      this.context = global.commands.contexts.get(name).newInstance(this);
+      this.context = global.commands.contexts.get(name);
       this.context.enter(this, this.context);
     }
 
     extendContext(name) {
     }
-  }
+  };
 };
 
-Session.priority = 100;
-module.exports = Session;
+module.exports.priority = 100;
