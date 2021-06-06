@@ -2,10 +2,10 @@ const fs = require('fs');
 const yaml = require('js-yaml');
 const parse = require('path').parse;
 
-const watcher = require('./watcher');
+const Watcher = require('./Watcher');
 const misc = require('./misc');
 
-module.exports = class ObjectManager extends watcher {
+module.exports = class ObjectManager extends Watcher {
   types = new Map();
   typeDefinitions = new Map();
   objects = new Map();

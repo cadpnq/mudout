@@ -1,7 +1,7 @@
 
-const PackageManager = require('./packages');
+const PackageManager = require('./PackageManager');
 const SystemManager = require('./systems');
-const ObjectManager = require('./objects');
+const ObjectManager = require('./ObjectManager');
 const CommandManager = require('./commands');
 
 exports.start = (config, start = true) => {
