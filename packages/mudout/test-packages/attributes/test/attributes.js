@@ -1,6 +1,6 @@
 describe('Attributes', function() {
   beforeEach(function() {
-    let config = {
+    const config = {
       packageRoots: global.testConfig.packageRoots,
       packages: [
         'core:engine',
@@ -74,7 +74,7 @@ describe('Attributes', function() {
       it('should be able to save and load all attributes', function() {
         obj.test = 10;
         obj.test_rate = 10;
-        let obj2 = global.objects.loadInstance(obj.save());
+        const obj2 = global.objects.loadInstance(obj.save());
         assert.equal(obj.test, obj2.test);
         assert.equal(obj.test_rate, obj2.test_rate);
       });

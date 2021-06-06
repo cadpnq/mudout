@@ -1,4 +1,4 @@
-let AttributeTest = (extend) => {
+module.exports = function AttributeTest(extend) {
   return class AttributeTest extends extend {
     static initialize(data) {
       super.initialize(data);
@@ -9,8 +9,7 @@ let AttributeTest = (extend) => {
           return o.test * 2;
       }});
     }
-  }
+  };
 };
 
-AttributeTest.priority = 300;
-module.exports = AttributeTest;
+module.exports.pritority = 300;

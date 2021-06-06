@@ -1,6 +1,6 @@
 describe('Simple Objects', function() {
   beforeEach(function() {
-    let config = {
+    const config = {
       packageRoots: {
         core: 'packages'
       },
@@ -24,7 +24,7 @@ describe('Simple Objects', function() {
     });
 
     it('should have default values on variables', function() {
-      let obj = global.objects.new('internal-simple-object');
+      const obj = global.objects.new('internal-simple-object');
       assert.equal(obj.staticVar, 0);
       assert.equal(obj.instanceVar, 1);
     });
@@ -77,7 +77,7 @@ describe('Simple Objects', function() {
       });
 
       it('should have variables independent between instances', function() {
-        assert.equal(obj.instanceVar, 1)
+        assert.equal(obj.instanceVar, 1);
         obj.instanceVar = 2;
         assert.equal(obj.instanceVar, 2);
         assert.equal(obj2.instanceVar, 1);
@@ -96,7 +96,7 @@ describe('Simple Objects', function() {
         });
 
         it('should restore references when saved object is loaded', function() {
-          let obj3 = global.objects.loadInstance(obj.save());
+          const obj3 = global.objects.loadInstance(obj.save());
           assert.equal(obj3.instanceRef, obj2);
         });
       });

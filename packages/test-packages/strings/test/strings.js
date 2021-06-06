@@ -1,6 +1,6 @@
 describe('Strings', function() {
   beforeEach(function() {
-    let config = {
+    const config = {
       packageRoots: {
         core: 'packages'
       },
