@@ -4,7 +4,6 @@ const contrib = require('blessed-contrib');
 const tailFile = require('winston/lib/winston/tail-file');
 
 const memScale = 1024;
-const graphScale = 1024;
 const graphWidth = 24;
 const graphX = new Array(graphWidth);
 graphX.fill(' ');
