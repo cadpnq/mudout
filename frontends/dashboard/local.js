@@ -1,4 +1,4 @@
-const rawipc = require('node-ipc').IPC;
+const RawIPC = require('node-ipc').IPC;
 const blessed = require('blessed');
 const contrib = require('blessed-contrib');
 const tailFile = require('winston/lib/winston/tail-file');
@@ -22,7 +22,7 @@ let load = '';
 let objects = '';
 let wait = '';
 
-const ipc = new rawipc;
+const ipc = new RawIPC;
 ipc.config.id = 'core';
 ipc.config.retry = 1500;
 ipc.config.silent = true;
