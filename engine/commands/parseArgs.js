@@ -1,4 +1,9 @@
-module.exports = function parseArgs(command, keywords = [], argumentNames = [], argumentKeywords = []) {
+module.exports = function parseArgs(
+  command,
+  keywords = [],
+  argumentNames = [],
+  argumentKeywords = []
+) {
   const words = command.split(/\s/);
   const ret = {
     command: words.shift(),
@@ -6,7 +11,8 @@ module.exports = function parseArgs(command, keywords = [], argumentNames = [], 
     arguments: {},
     argumentKeywords: {},
     wholeArgument: words.join(' '),
-    freeArgument: ''};
+    freeArgument: ''
+  };
   words.reverse();
   let argumentValue = [];
   for (const word of words) {
@@ -18,7 +24,10 @@ module.exports = function parseArgs(command, keywords = [], argumentNames = [], 
       ret.arguments[_word] = [];
       for (const word2 of argumentValue) {
         const _word2 = word2.toLowerCase();
-        if (argumentKeywords[_word] && argumentKeywords[_word].includes(_word2)) {
+        if (
+          argumentKeywords[_word] &&
+          argumentKeywords[_word].includes(_word2)
+        ) {
           ret.argumentKeywords[_word][_word2] = true;
         } else {
           ret.arguments[_word].push(word2);

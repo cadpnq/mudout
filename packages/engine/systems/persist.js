@@ -6,7 +6,10 @@ module.exports = {
   priority: 15,
   interval: 5000,
   each(obj, t) {
-    fs.writeFileSync(`${global.config.instancePath}/${obj.uid}`, yaml.safeDump(obj.save()));
+    fs.writeFileSync(
+      `${global.config.instancePath}/${obj.uid}`,
+      yaml.safeDump(obj.save())
+    );
     obj.dirty = false;
   }
 };

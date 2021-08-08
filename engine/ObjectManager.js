@@ -43,13 +43,13 @@ module.exports = class ObjectManager extends Watcher {
     }
 
     for (const file of misc.walkSync(`${path}/types/`)) {
-      const {name, mixins} = yaml.load(fs.readFileSync(file));
+      const { name, mixins } = yaml.load(fs.readFileSync(file));
       this.defineType(name, ...mixins);
     }
   }
 
   defer(path, data) {
-    this.deferredInstances.add({path, data});
+    this.deferredInstances.add({ path, data });
   }
 
   load(path, data) {
@@ -65,7 +65,7 @@ module.exports = class ObjectManager extends Watcher {
       let instance = this.instances.get(data.name);
       if (!instance) {
         const object = this.objects.get(data.of);
-        instance = new object;
+        instance = new object();
         object.new(instance);
         instance.uid = data.name;
         this.instances.set(instance.uid, instance);
@@ -139,7 +139,7 @@ module.exports = class ObjectManager extends Watcher {
       const mixinFunctions = definition.map((m) => {
         return this.mixins.get(m);
       });
-      mixinFunctions.sort((a,b) => {
+      mixinFunctions.sort((a, b) => {
         return a.priority > b.priority;
       });
 
@@ -155,14 +155,14 @@ module.exports = class ObjectManager extends Watcher {
       });
 
       if (definition.includes('Internal')) {
-        this.load(name, {name, id: name, type: name});
+        this.load(name, { name, id: name, type: name });
       }
     }
   }
 
   new(id, ...args) {
     const object = this.objects.get(id);
-    let instance = new object;
+    let instance = new object();
     instance = object.new(instance, ...args);
     this.instances.set(instance.uid, instance);
     return instance;
@@ -170,7 +170,7 @@ module.exports = class ObjectManager extends Watcher {
 
   loadInstance(data) {
     const object = this.objects.get(data.id);
-    const instance = new object;
+    const instance = new object();
     object.load(instance, data);
     this.instances.set(instance.uid, instance);
     return instance;
@@ -185,7 +185,7 @@ module.exports = class ObjectManager extends Watcher {
         const data = yaml.load(fs.readFileSync(fname));
         // We should probably be validating the data here...
         const object = this.objects.get(data.id);
-        const instance = new object;
+        const instance = new object();
         this.instances.set(uid, instance);
         object.load(instance, data);
         return instance;

@@ -8,8 +8,7 @@ const misc = require('./engine/misc');
 const yargs = require('yargs')
   .default('config', 'config.yaml')
   .alias('c', 'config')
-  .version(false)
-  .argv;
+  .version(false).argv;
 
 global.engine = require('./engine/engine');
 global.testConfig = yaml.load(fs.readFileSync(yargs.config));
@@ -28,6 +27,6 @@ for (const rootName in testConfig.packageRoots) {
   }
 }
 
-mocha.run(function(failures) {
+mocha.run(function (failures) {
   process.exitCode = failures ? 1 : 0;
 });

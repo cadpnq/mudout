@@ -4,7 +4,7 @@ const path = require('path');
 exports.time = (start) => {
   if (start) {
     const time = process.hrtime(start);
-    return (time[0] / 1000) + (time[1]/1000000);
+    return time[0] / 1000 + time[1] / 1000000;
   } else {
     return process.hrtime();
   }

@@ -6,7 +6,10 @@ module.exports = function Attributes(extend) {
       super();
 
       for (const [name, definition] of this.attributeDefinitions) {
-        this.attributes.set(name, global.objects.new('attribute', {object: this, ...definition}));
+        this.attributes.set(
+          name,
+          global.objects.new('attribute', { object: this, ...definition })
+        );
         Object.defineProperty(this, name, {
           get: () => {
             return this.attributeValue(name);
@@ -34,7 +37,7 @@ module.exports = function Attributes(extend) {
 
     modify(data) {
       super.modify(data);
-      for (const [name, {value}] of this.attributeDefinitions) {
+      for (const [name, { value }] of this.attributeDefinitions) {
         this.attribute(name).baseValue = value;
       }
     }
@@ -55,26 +58,29 @@ module.exports = function Attributes(extend) {
       for (const [name, attribute] of this.attributes) {
         attributes[name] = attribute.instanceModifier;
       }
-      return {...super.save(), attributes};
+      return { ...super.save(), attributes };
     }
 
     delete() {
       super.delete();
-      for (const [,attribute] of this.attributes) {
+      for (const [, attribute] of this.attributes) {
         attribute.delete();
       }
     }
 
-    static defineAttribute(name, {value = 0, minimum, maximum, rate, parents, func} = {}) {
+    static defineAttribute(
+      name,
+      { value = 0, minimum, maximum, rate, parents, func } = {}
+    ) {
       const definition = this.getAttributeDefinition(name);
       definition.value = value;
 
       if (minimum !== undefined) {
         const minimumName = `${name}_minimum`;
         if (typeof minimum === 'function') {
-          this.defineAttribute(minimumName, {func: minimum, parents});
+          this.defineAttribute(minimumName, { func: minimum, parents });
         } else {
-          this.defineAttribute(minimumName, {value: minimum, parents});
+          this.defineAttribute(minimumName, { value: minimum, parents });
         }
         this.linkAttribute(minimumName, name, 'minimum');
       }
@@ -82,9 +88,9 @@ module.exports = function Attributes(extend) {
       if (maximum !== undefined) {
         const maximumName = `${name}_maximum`;
         if (typeof maximum === 'function') {
-          this.defineAttribute(maximumName, {func: maximum, parents});
+          this.defineAttribute(maximumName, { func: maximum, parents });
         } else {
-          this.defineAttribute(maximumName, {value: maximum, parents});
+          this.defineAttribute(maximumName, { value: maximum, parents });
         }
         this.linkAttribute(maximumName, name, 'maximum');
       }
@@ -92,9 +98,9 @@ module.exports = function Attributes(extend) {
       if (rate !== undefined) {
         const rateName = `${name}_rate`;
         if (typeof rate === 'function') {
-          this.defineAttribute(rateName, {func: rate, parents});
+          this.defineAttribute(rateName, { func: rate, parents });
         } else {
-          this.defineAttribute(rateName, {value: rate, parents});
+          this.defineAttribute(rateName, { value: rate, parents });
         }
         this.linkAttribute(rateName, name, 'rate');
       }
@@ -114,7 +120,7 @@ module.exports = function Attributes(extend) {
       if (this.attributeDefinitions.has(name)) {
         return this.attributeDefinitions.get(name);
       } else {
-        const definition = {name, value: 0, children: new Set()};
+        const definition = { name, value: 0, children: new Set() };
         this.attributeDefinitions.set(name, definition);
         return definition;
       }
@@ -136,7 +142,7 @@ module.exports = function Attributes(extend) {
     }
 
     forceAttributeUpdate(t) {
-      for (const [,attribute] of this.attributes) {
+      for (const [, attribute] of this.attributes) {
         attribute.runSystem('attribute', t);
         attribute.value = attribute.nextValue;
       }

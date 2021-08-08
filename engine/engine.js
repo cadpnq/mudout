@@ -1,4 +1,3 @@
-
 const PackageManager = require('./PackageManager');
 const SystemManager = require('./systems');
 const ObjectManager = require('./ObjectManager');

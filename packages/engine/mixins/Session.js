@@ -38,7 +38,7 @@ module.exports = function Session(extend) {
 
     text(mode, text) {
       if (!this.suppressedText.has(mode)) {
-        this.emit('text', {mode, text});
+        this.emit('text', { mode, text });
       }
     }
 
@@ -47,8 +47,7 @@ module.exports = function Session(extend) {
       this.context.enter(this, this.context);
     }
 
-    extendContext(name) {
-    }
+    extendContext(name) {}
   };
 };
 

@@ -22,7 +22,7 @@ let load = '';
 let objects = '';
 let wait = '';
 
-const ipc = new RawIPC;
+const ipc = new RawIPC();
 ipc.config.id = 'core';
 ipc.config.retry = 1500;
 ipc.config.silent = true;
@@ -30,10 +30,10 @@ ipc.config.silent = true;
 const screen = blessed.screen({
   fullUnicode: true,
   forceUnicode: true,
-  debug: true,
+  debug: true
 });
 
-screen.key(['escape', 'q', 'C-c'], (ch, key) => (process.exit(0)));
+screen.key(['escape', 'q', 'C-c'], (ch, key) => process.exit(0));
 
 const systemsTable = contrib.table({
   parent: screen,
@@ -45,7 +45,7 @@ const systemsTable = contrib.table({
   width: '70%',
   height: '20%',
   label: 'Systems',
-  fg: 'white',
+  fg: 'white'
 });
 
 const statusBox = blessed.box({
@@ -54,12 +54,12 @@ const statusBox = blessed.box({
   border: 'line',
   left: '70%',
   width: '30%',
-  height: '20%',
+  height: '20%'
 });
 
 const statusTable = blessed.table({
   parent: statusBox,
-  align: 'left',
+  align: 'left'
 });
 
 const memoryGraph = contrib.line({
@@ -70,9 +70,9 @@ const memoryGraph = contrib.line({
   border: 'line',
   label: 'Memory',
   style: {
-    text: 'white',
+    text: 'white'
   },
-  showLegend: true,
+  showLegend: true
 });
 
 const log = blessed.log({
@@ -81,10 +81,10 @@ const log = blessed.log({
   width: '100%',
   height: '40%',
   border: 'line',
-  label: 'Log',
+  label: 'Log'
 });
 
-tailFile({file: 'logs/log.log'}, (err, line) => {
+tailFile({ file: 'logs/log.log' }, (err, line) => {
   if (err) {
     return;
   }
@@ -95,27 +95,21 @@ tailFile({file: 'logs/log.log'}, (err, line) => {
 screen.append(memoryGraph);
 
 function draw() {
-  systemsTable.setData({headers: ['name', 'priority', 'interval', 'objects', 'load'], data: systems});
+  systemsTable.setData({
+    headers: ['name', 'priority', 'interval', 'objects', 'load'],
+    data: systems
+  });
   statusTable.setData([
-    ['Connected:', connected ? 'YES': 'NO'],
+    ['Connected:', connected ? 'YES' : 'NO'],
     ['Uptime:', uptime],
     ['Load:', load],
     ['Objects:', objects],
-    ['Wait: ', wait],
+    ['Wait: ', wait]
   ]);
   memoryGraph.setData([
-   {title: 'heap used',
-    x: graphX,
-    y: usedData,
-    style: { line: 'green' }},
-   {title: 'heap total',
-    x: graphX,
-    y: totalData,
-    style: { line: 'red' }},
-   {title: 'rss',
-    x: graphX,
-    y: rssData,
-    style: { line: 'magenta' }}
+    { title: 'heap used', x: graphX, y: usedData, style: { line: 'green' } },
+    { title: 'heap total', x: graphX, y: totalData, style: { line: 'red' } },
+    { title: 'rss', x: graphX, y: rssData, style: { line: 'magenta' } }
   ]);
   screen.render();
 }

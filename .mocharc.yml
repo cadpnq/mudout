@@ -1,4 +1,4 @@
-require: 
+require:
   - 'chai/register-assert'
 ui: 'bdd'
 parallel: false

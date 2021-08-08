@@ -6,8 +6,7 @@ const engine = require('./engine');
 const yargs = require('yargs')
   .default('config', 'config.yaml')
   .alias('c', 'config')
-  .version(false)
-  .argv;
+  .version(false).argv;
 
 engine.start(yaml.load(fs.readFileSync(yargs.config)));
 

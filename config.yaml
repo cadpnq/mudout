@@ -2,7 +2,7 @@ packageRoots:
   core: packages
   mudout: packages/mudout
 packages:
- - core:engine
+  - core:engine
 instancePath: instances
 systemRate: 500
 minimumWait: 20

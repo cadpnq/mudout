@@ -10,7 +10,7 @@ module.exports = {
     }
 
     if (obj.rate) {
-      obj.nextValue += (obj.object.attributes.get(obj.rate).value) * (t / 1000);
+      obj.nextValue += obj.object.attributes.get(obj.rate).value * (t / 1000);
     }
 
     let min = -Infinity;

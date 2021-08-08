@@ -24,8 +24,7 @@ module.exports = class Watcher {
     this.packagePaths.add(path);
   }
 
-  initializePackages() {
-  }
+  initializePackages() {}
 
   addChange(path) {
     if (global.config.activeHotload) {
@@ -46,16 +45,17 @@ module.exports = class Watcher {
     try {
       this.load(path);
     } catch (error) {
-      global.logger.error(`There was an error loading: ${path}\n${error.stack}`);
+      global.logger.error(
+        `There was an error loading: ${path}\n${error.stack}`
+      );
     }
   }
 
-  load(path, data) {
-  }
+  load(path, data) {}
 
   start() {
     global.packages.addWatcher(this);
-    for(const packagePath of this.packagePaths) {
+    for (const packagePath of this.packagePaths) {
       const path = `${packagePath}/${this.packageFolder}`;
       for (const file of misc.walkSync(path)) {
         this.doLoad(file);

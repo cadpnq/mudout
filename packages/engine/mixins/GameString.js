@@ -2,7 +2,7 @@ module.exports = function GameString(extend) {
   return class GameString extends extend {
     static initialize(data) {
       super.initialize(data);
-      this.defineInstanceVariable('value', {value: ''});
+      this.defineInstanceVariable('value', { value: '' });
     }
 
     modify(data) {

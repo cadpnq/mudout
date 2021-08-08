@@ -4,12 +4,21 @@ const parseArgs = require('./parseArgs');
 module.exports = class CommandContext {
   commands = new Map();
   regexes = new Map();
-  
+
   constructor(name) {
     this.name = name;
   }
 
-  load({name, commands, traverse, strict, enter = () => {}, exit = () => {}, before = () => {}, after = () => {}}) {
+  load({
+    name,
+    commands,
+    traverse,
+    strict,
+    enter = () => {},
+    exit = () => {},
+    before = () => {},
+    after = () => {}
+  }) {
     this.commands = new Map();
     this.traverse = traverse;
     this.strict = strict;
@@ -19,10 +28,17 @@ module.exports = class CommandContext {
     this.after = after;
 
     for (const name in commands) {
-      const {func, keywords, argumentNames, argumentKeywords} = commands[name];
+      const { func, keywords, argumentNames, argumentKeywords } =
+        commands[name];
       this.commands.set(name, (session, context, text) => {
         before(session, context);
-        if(!func(session, context, parseArgs(text, keywords, argumentNames, argumentKeywords))) {
+        if (
+          !func(
+            session,
+            context,
+            parseArgs(text, keywords, argumentNames, argumentKeywords)
+          )
+        ) {
           after(session, context);
         }
       });

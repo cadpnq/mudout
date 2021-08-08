@@ -13,7 +13,8 @@ module.exports = function GameObject(extend) {
     constructor() {
       this.constructor.instances.add(this);
 
-      for (const [name, {value, expose, reference}] of this.constructor.instanceVariables) {
+      for (const [name, { value, expose, reference }] of this.constructor
+        .instanceVariables) {
         Object.defineProperty(this, `#${name}`, {
           get: () => {
             return this.#instanceData[name];
@@ -29,7 +30,7 @@ module.exports = function GameObject(extend) {
           Object.defineProperty(this, name, {
             get: () => {
               return this[`#${name}`];
-            }, 
+            },
             set: (value) => {
               this[`#${name}`] = value;
             }
@@ -50,9 +51,9 @@ module.exports = function GameObject(extend) {
     }
 
     static initialize(data) {
-      this.defineStaticVariable('name', {save: true});
-      this.defineStaticVariable('id', {save: true});
-      this.defineStaticVariable('type', {save: true});
+      this.defineStaticVariable('name', { save: true });
+      this.defineStaticVariable('id', { save: true });
+      this.defineStaticVariable('type', { save: true });
       this.defineInstanceVariable('uid');
       this.modify(data);
     }
@@ -98,14 +99,14 @@ module.exports = function GameObject(extend) {
     }
 
     save() {
-      const data = {instanceData: {}, references: {}};
-      for (const [name, {save}] of this.constructor.staticVariables) {
+      const data = { instanceData: {}, references: {} };
+      for (const [name, { save }] of this.constructor.staticVariables) {
         if (save) {
           data[name] = this[name];
         }
       }
 
-      for (const [name, {reference}] of this.constructor.instanceVariables) {
+      for (const [name, { reference }] of this.constructor.instanceVariables) {
         if (this[name] !== undefined) {
           if (reference) {
             data.references[name] = this[name].uid;
@@ -146,13 +147,16 @@ module.exports = function GameObject(extend) {
       }
     }
 
-    static defineStaticVariable(name, {value, save = false} = {}) {
+    static defineStaticVariable(name, { value, save = false } = {}) {
       this.prototype[name] = value;
-      this.staticVariables.set(name, {name, save});
+      this.staticVariables.set(name, { name, save });
     }
 
-    static defineInstanceVariable(name, {value, expose = true, reference = false} = {}) {
-      this.instanceVariables.set(name, {value, expose, reference});
+    static defineInstanceVariable(
+      name,
+      { value, expose = true, reference = false } = {}
+    ) {
+      this.instanceVariables.set(name, { value, expose, reference });
     }
   };
 };

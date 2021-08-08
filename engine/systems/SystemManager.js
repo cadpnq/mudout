@@ -47,7 +47,9 @@ module.exports = class SystemManager extends Watcher {
         systems.push(system);
       }
     }
-    systems.sort((a,b) => { return a.priority > b.priority; });
+    systems.sort((a, b) => {
+      return a.priority > b.priority;
+    });
     for (const system of systems) {
       system.update(t);
     }

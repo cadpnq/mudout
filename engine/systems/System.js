@@ -10,20 +10,17 @@ module.exports = class System {
   name;
   totalTime = 0;
 
-  each(obj, t) {
-  }
+  each(obj, t) {}
 
-  before(t) {
-  }
+  before(t) {}
 
-  after(t) {
-  }
+  after(t) {}
 
   update(t) {
     this.elapsed = 0;
-    
+
     const totalStart = misc.time();
-    
+
     this.before(this, t);
     for (const obj of this.objects) {
       this.each(obj, t);

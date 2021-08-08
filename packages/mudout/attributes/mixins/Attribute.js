@@ -7,7 +7,7 @@ module.exports = function Attribute(extend) {
 
     set active(value) {
       this.#active = value;
-      
+
       if (value) {
         this.register('attribute');
         for (const attribute of this.children) {
@@ -41,7 +41,7 @@ module.exports = function Attribute(extend) {
         value = max;
       }
 
-      this.instanceModifier = (value - this.baseValue);
+      this.instanceModifier = value - this.baseValue;
       this.active = true;
       this.#value = value;
     }
@@ -63,10 +63,13 @@ module.exports = function Attribute(extend) {
 
     static initialize(data) {
       super.initialize(data);
-      this.defineInstanceVariable('instanceModifier', {value: 0});
+      this.defineInstanceVariable('instanceModifier', { value: 0 });
     }
 
-    static new(obj, {object, name, value, minimum, maximum, rate, func, children}) {
+    static new(
+      obj,
+      { object, name, value, minimum, maximum, rate, func, children }
+    ) {
       super.new(obj, arguments[1]);
       obj.object = object;
       obj.children = children;

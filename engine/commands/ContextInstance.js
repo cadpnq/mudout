@@ -7,8 +7,7 @@ module.exports = class ContextInstance {
     this.context = context;
   }
 
-  extendTo(context) {
-  }
+  extendTo(context) {}
 
   find(name) {
     const matches = this.context.find(name);
